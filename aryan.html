@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Aryan Singh Thakur — Full Stack Developer building React, Node.js and IoT products. Based in Delhi.">
+<meta name="theme-color" content="#0a0b0e">
+<title>Aryan Singh Thakur — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aryan.css">
+<noscript><style>.loader{display:none!important;}</style></noscript>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-ring"></div>
+    <div class="loader-logo">aryan</div>
+    <div class="loader-sub">Full Stack Developer</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-label" id="cursorLabel"></div>
+
+<div id="glow"></div>
+<div class="bg-grid"></div>
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="logo"><span class="dot"></span>aryan</div>
+      <ul class="nav-links">
+        <li><a href="#about" data-num="01">about</a></li>
+        <li><a href="#skills" data-num="02">skills</a></li>
+        <li><a href="#projects" data-num="03">projects</a></li>
+        <li><a href="#experience" data-num="04">experience</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">say hi →</a>
+    </div>
+  </nav>
+
+<main>
+  <header class="hero wrap">
+    <div class="status-row">
+      <div class="eyebrow">DELHI, INDIA · AVAILABLE FOR FREELANCE</div>
+      <div class="live-clock"><span class="lc-dot"></span><span id="clock">--:--:-- IST</span></div>
+    </div>
+    <h1 class="hero-title" id="heroTitle" aria-label="Aryan Singh Thakur builds full-stack products, end to end.">
+      <span class="line" data-text="Aryan Singh Thakur"></span>
+      <span class="line muted" data-text="builds full-stack products, end to end."></span>
+    </h1>
+    <div class="hero-role"><span class="prompt">&gt;</span><span id="typed"></span><span class="cursor"></span></div>
+    <p class="hero-desc">BCA student and full-stack developer working across <strong>React, Next.js, Node.js and MongoDB</strong> — from IoT-connected hardware to hackathon-winning platforms, shipped and deployed, not just prototyped.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View projects</a>
+      <a href="mailto:iamaryan721@gmail.com" class="btn btn-ghost">iamaryan721@gmail.com</a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item"><div class="num">25+</div><div class="label">HACKATHONS PLAYED</div></div>
+      <div class="meta-item"><div class="num">5+</div><div class="label">WINS &amp; TOP FINISHES</div></div>
+      <div class="meta-item"><div class="num">15+</div><div class="label">PROJECTS BUILT</div></div>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track" id="marqueeTrack">
+        <span>React · Next.js · Node.js · TypeScript · MongoDB · Tailwind CSS · GSAP · Framer Motion</span>
+        <span>React · Next.js · Node.js · TypeScript · MongoDB · Tailwind CSS · GSAP · Framer Motion</span>
+      </div>
+    </div>
+    <div class="scroll-cue"><span class="line"></span>SCROLL</div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal-el">
+        <div class="section-tag">01 / ABOUT</div>
+        <h2 class="section-title">Currently building, always learning.</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-body reveal-left">
+          <p>I'm a <strong>Full Stack Developer</strong> based in Delhi, currently pursuing my <strong>MCA at SRM University</strong> after finishing my BCA with an 8.8 CGPA. My work spans the full stack — from responsive React interfaces to REST APIs and MongoDB-backed systems — with a specific interest in where software meets hardware.</p>
+          <p>That interest turned into an <strong>IoT-enabled Smart Bin System</strong> during my internship at IBM SkillsBuild, and an award-winning logistics platform that placed <strong>2nd at the Industrial Ideathon 2025</strong>. I've also been a <strong>Smart India Hackathon Grand Finalist</strong> and led hackathon organizing as Innovation Coordinator at my college's IIC chapter.</p>
+          <p>I care about interfaces that feel fast and honest, and backends that don't fall over when someone actually uses them.</p>
+        </div>
+        <div class="edu-list reveal-right">
+          <div class="edu-card">
+            <div class="deg">Master of Computer Applications</div>
+            <div class="school">SRM University, Delhi NCR Sonepat</div>
+            <div class="years">2026 — 2028</div>
+          </div>
+          <div class="edu-card">
+            <div class="deg">Bachelor of Computer Applications</div>
+            <div class="school">Kasturi Ram College of Higher Education (GGSIPU)</div>
+            <div class="years">2023 — 2026</div>
+            <div class="cgpa">CGPA 8.8 / 10</div>
+          </div>
+          <div class="edu-card">
+            <div class="deg">Senior Secondary — Commerce with Mathematics</div>
+            <div class="school">Sant Sujan Singh Ji International School (CBSE)</div>
+            <div class="years">2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal-el">
+        <div class="section-tag">02 / SKILLS</div>
+        <h2 class="section-title">The stack I build with.</h2>
+      </div>
+      <div class="skills-grid reveal-scale">
+        <div class="skill-group">
+          <div class="g-title">LANGUAGES</div>
+          <div class="chip-row">
+            <span class="chip">Python</span><span class="chip">JavaScript</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="g-title">FRONTEND</div>
+          <div class="chip-row">
+            <span class="chip">React.js</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Tailwind CSS</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="g-title">BACKEND</div>
+          <div class="chip-row">
+            <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">REST APIs</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="g-title">DATABASE</div>
+          <div class="chip-row">
+            <span class="chip">MongoDB</span><span class="chip">Firebase</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="g-title">TOOLS</div>
+          <div class="chip-row">
+            <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">Postman</span><span class="chip">Vercel</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="g-title">CORE CS &amp; OTHER</div>
+          <div class="chip-row">
+            <span class="chip">DSA</span><span class="chip">OOP</span><span class="chip">DBMS</span><span class="chip">Operating Systems</span><span class="chip">IoT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal-el">
+        <div class="section-tag">03 / PROJECTS</div>
+        <h2 class="section-title">Selected work.</h2>
+      </div>
+      <div class="project-grid reveal-scale">
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">01</span><span class="pc-cat">Game</span></div>
+          <div class="pc-name">Tic Tac Toe <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A polished, animated take on the classic game — built to sweat the small UI and interaction details.</p>
+          <div class="pc-stack"><span>React</span><span>JavaScript</span></div>
+          <a href="https://heyoaryan.github.io/Tic-Tac-Toe/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">02</span><span class="pc-cat">Task Management</span></div>
+          <div class="pc-name">Task Flow Tracker <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A clean task management app for organising work into flows, tracking progress and staying on top of deadlines.</p>
+          <div class="pc-stack"><span>React</span><span>Node.js</span></div>
+          <a href="https://taskflow-intern-demo.netlify.app/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">03</span><span class="pc-cat">Healthcare</span></div>
+          <div class="pc-name">Ambu Now <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">An on-demand ambulance booking platform focused on cutting response time in genuine emergencies.</p>
+          <div class="pc-stack"><span>React</span><span>Node.js</span><span>MongoDB</span></div>
+          <a href="https://ambunow.vercel.app/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">04</span><span class="pc-cat">Music Streaming</span></div>
+          <div class="pc-name">Vibify <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A music streaming web app with playlist browsing, search and dynamic music management — designed fast and mobile-friendly.</p>
+          <div class="pc-stack"><span>React.js</span><span>Node.js</span></div>
+          <a href="https://music-vibify.vercel.app" target="_blank" class="pc-link is-live">Visit live site ↗</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">05</span><span class="pc-cat">Logistics</span></div>
+          <div class="pc-name">Cargo Crazee <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A logistics platform for shipment booking, tracking and courier management with secure auth and a scalable REST backend. Built for the Industrial Ideathon 2025.</p>
+          <div class="pc-stack"><span>React.js</span><span>Node.js</span><span>MongoDB</span></div>
+          <a href="#contact" class="pc-link">Ask for demo →</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">06</span><span class="pc-cat">Healthcare AI</span></div>
+          <div class="pc-name">Mind Mitra <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A conversational chatbot built to recognise emotional cues and offer supportive, context-aware mental health guidance.</p>
+          <div class="pc-stack"><span>React</span><span>Node.js</span><span>NLP</span></div>
+          <a href="#contact" class="pc-link">Ask for demo →</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">07</span><span class="pc-cat">Environmental · IoT</span></div>
+          <div class="pc-name">Zero Waste Delhi <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">A Smart Bin monitoring system built during my IBM SkillsBuild internship, with real-time waste tracking, alerts and a gamified dashboard.</p>
+          <div class="pc-stack"><span>React</span><span>IoT</span><span>Firebase</span></div>
+          <a href="#contact" class="pc-link">Ask for demo →</a>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top"><span class="pc-index">08</span><span class="pc-cat">IoT · Embedded</span></div>
+          <div class="pc-name">IntelliFlame <span class="pc-arrow">↗</span></div>
+          <p class="pc-desc">An IoT-based fire detection system using flame and smoke sensors, with real-time alerts and an emergency response dashboard.</p>
+          <div class="pc-stack"><span>IoT</span><span>Embedded Systems</span></div>
+          <a href="#contact" class="pc-link">Ask for demo →</a>
+        </div>
+
+      </div>
+      <div class="pc-more"><a href="https://github.com/heyoaryan" target="_blank">See all projects on Github ↗</a></div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal-el">
+        <div class="section-tag">04 / EXPERIENCE</div>
+        <h2 class="section-title">Where the work happened.</h2>
+      </div>
+
+      <div class="gitlog reveal-el">
+        <div class="commit">
+          <div class="commit-head">
+            <span class="commit-hash">#a1f3c9</span>
+            <span class="commit-date">JUL 2025 — AUG 2025</span>
+          </div>
+          <div class="commit-title">Frontend Web Development Intern</div>
+          <div class="commit-org">IBM SkillsBuild (CSRBOX)</div>
+          <ul class="commit-body">
+            <li>Built responsive web applications using React.js and modern frontend practices.</li>
+            <li>Developed the Zero Waste Delhi Smart Bin System with IoT-enabled waste monitoring.</li>
+            <li>Implemented authentication, REST API integration, analytics dashboards and gamification.</li>
+            <li>Collaborated with mentors and teammates on UI/UX, testing, debugging and deployment.</li>
+          </ul>
+        </div>
+
+        <div class="commit warm">
+          <div class="commit-head">
+            <span class="commit-hash">#7c2e0b</span>
+            <span class="commit-date">2023 — PRESENT</span>
+          </div>
+          <div class="commit-title">Innovation &amp; Startup Coordinator</div>
+          <div class="commit-org">Institution's Innovation Council, KRCHE</div>
+          <ul class="commit-body">
+            <li>Led student teams across hackathons and innovation challenges.</li>
+            <li>Organized HACK4KRCHE, an 8-hour campus hackathon — sponsorships, ops and participants.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="achv-grid reveal-el">
+        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>2nd Position</strong>Industrial Ideathon 2025</div></div>
+        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Honoured by the CM of Delhi</strong>For outstanding innovation work</div></div>
+        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Grand Finalist</strong>Smart India Hackathon 2024</div></div>
+        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Finalist</strong>Smart Delhi Ideathon</div></div>
+         <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Finalist</strong>Hack4Delhi</div></div>
+         <div class="achv"><div class="ic">★</div><div class="tx"><strong>Leadership</strong>Organized HACK4KRCHE — an 8-hour campus hackathon with sponsorships and ops</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact-inner">
+      <div class="section-tag reveal-el">05 / CONTACT</div>
+      <h2 class="contact-title reveal-el">Let's build something <span class="accent">worth shipping.</span></h2>
+      <p class="contact-sub reveal-el">Open to internships, freelance work and full-stack roles. Based in Delhi — happy to work remote.</p>
+      <div class="contact-actions reveal-el">
+        <a href="mailto:iamaryan721@gmail.com" class="btn btn-primary">Email me</a>
+      </div>
+      <div class="contact-links reveal-el">
+        <a href="https://www.linkedin.com/in/aryan-singh-thakur-12a422281/" target="_blank">LinkedIn ↗</a>
+        <a href="https://github.com/heyoaryan" target="_blank">GitHub ↗</a>
+        <a href="mailto:iamaryan721@gmail.com">Email ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Aryan Singh Thakur · Full Stack Developer</div>
+</footer>
+
+<script src="aryan.js"></script>
+
+</body>
+</html>
