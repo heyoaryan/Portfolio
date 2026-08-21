@@ -264,13 +264,13 @@ h1.hero-title .char.space{
 .hero-desc strong{ color:var(--text); font-weight:500; }
 
 .hero-actions{
-   display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;
+   display:flex; align-items:center; justify-content:center; gap:14px; margin-top:32px; flex-wrap:nowrap;
    opacity:0; transform:translateY(12px); animation: reveal 0.9s ease forwards;
    animation-delay:1.45s;
 }
 .btn{
    font-family:var(--font-mono); font-size:13px; padding:12px 22px; border-radius:6px;
-   display:inline-flex; align-items:center; gap:8px; transition: all 0.25s ease;
+   display:inline-flex; align-items:center; gap:8px; white-space:nowrap; transition: all 0.25s ease;
    border:1px solid transparent;
 }
 .btn-primary{ background:var(--text); color:var(--bg); font-weight:500; }
@@ -517,8 +517,11 @@ footer{
       .meta-item{ min-width:0; text-align:center; }
       .meta-item .num{ font-size:22px; }
       .meta-item .label{ font-size:9px; line-height:1.45; }
-   .hero-actions{ flex-direction:column; }
-   .btn{ width:100%; justify-content:center; }
+   .hero-actions{ flex-direction:row; gap:8px; }
+   .hero-actions .btn{
+      flex:1 1 0; min-width:0; justify-content:center; padding:11px 8px;
+      font-size:10px; white-space:nowrap;
+   }
    .contact-actions{ flex-direction:column; }
    .contact-links{ flex-direction:column; gap:14px; }
    .nav-menu{ padding:20px 24px; }
