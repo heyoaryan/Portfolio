@@ -196,72 +196,94 @@
           document.body.style.overflow = '';
         });
       });
-    }
+   }
 
-    // background music player - Hola Amigo (first 30s intro loop)
+    // background music player - Hola Amigo (intro loop)
     const bgMusic = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     const volumeControl = document.getElementById('volumeControl');
+    const TARGET_VOLUME = volumeControl ? Number(volumeControl.value) : 0.4;
     let musicPlaying = false;
 
     if(bgMusic && musicBtn){
-      // Set volume
-      bgMusic.volume = volumeControl ? Number(volumeControl.value) : 0.4;
+      // volume stays at the user's slider value (0.4 default); the slider is
+      // the user's to control, we never move it automatically on load.
+      bgMusic.volume = TARGET_VOLUME;
+
+      const renderVolume = ()=>{
+        if(volumeControl){
+          volumeControl.value = String(bgMusic.volume);
+          volumeControl.style.background = `linear-gradient(to right, var(--accent) 0 ${bgMusic.volume * 100}%, rgba(255,255,255,0.1) ${bgMusic.volume * 100}% 100%)`;
+        }
+      };
+      renderVolume();
+
+      const setMuted = (m)=>{ bgMusic.muted = m; };
 
       if(volumeControl){
         volumeControl.addEventListener('input', ()=>{
           bgMusic.volume = Number(volumeControl.value);
-          volumeControl.style.background = `linear-gradient(to right, var(--accent) 0 ${bgMusic.volume * 100}%, rgba(255,255,255,0.1) ${bgMusic.volume * 100}% 100%)`;
+          renderVolume();
         });
       }
 
       // Loop only first 30 seconds (intro part)
       bgMusic.addEventListener('timeupdate', ()=>{
-        if(bgMusic.currentTime >= 30){
-          bgMusic.currentTime = 0;
-        }
+        if(bgMusic.currentTime >= 30){ bgMusic.currentTime = 0; }
       });
 
-      // Auto-play on page load (browsers may block)
+      // Auto-play on page load without any touch.
+      // Browsers always allow *muted* autoplay. We try audible autoplay first
+      // (works once the page has earned media engagement); on a fresh visit we
+      // fall back to muted autoplay and immediately unmute — Chrome/Firefox let
+      // you toggle mute on a playing element without a gesture, so it can sound
+      // with no tap at all.
       const startMusic = ()=>{
         bgMusic.currentTime = 0;
-        const playPromise = bgMusic.play();
-        if(playPromise !== undefined){
-          playPromise.then(()=>{
+        bgMusic.volume = TARGET_VOLUME;
+        setMuted(false);
+        bgMusic.play().then(()=>{
+          musicBtn.classList.add('playing');
+          musicPlaying = true;
+        }).catch(()=>{
+          // audible autoplay blocked (fresh visit) — prime with muted play, then unmute
+          bgMusic.muted = true;
+          bgMusic.play().then(()=>{
             musicBtn.classList.add('playing');
             musicPlaying = true;
+            setMuted(false);
           }).catch(()=>{
-            // Try muted autoplay first; Safari may allow this even when audible autoplay is blocked.
-            bgMusic.muted = true;
-            const mutedPlayPromise = bgMusic.play();
-            if(mutedPlayPromise !== undefined){
-              mutedPlayPromise.then(()=>{
-                bgMusic.muted = false;
-                musicBtn.classList.add('playing');
-                musicPlaying = true;
-              }).catch(()=>{
-                document.body.addEventListener('click', ()=>{
-                  if(!musicPlaying){
-                    bgMusic.muted = false;
-                    bgMusic.play();
-                    musicBtn.classList.add('playing');
-                    musicPlaying = true;
-                  }
-                }, { once: true });
-              });
-            }
+            // still blocked — enable on first interaction
+            const onFirstInteract = ()=>{
+              bgMusic.currentTime = 0;
+              bgMusic.muted = false;
+              bgMusic.play();
+              musicBtn.classList.add('playing');
+              musicPlaying = true;
+              document.removeEventListener('click', onFirstInteract);
+              document.removeEventListener('touchstart', onFirstInteract);
+            };
+            document.addEventListener('click', onFirstInteract);
+            document.addEventListener('touchstart', onFirstInteract);
           });
-        }
+        });
       };
 
-      // Start when the loader begins fading out, so the intro stays behind the loading screen.
+      // If stuck muted, the first tap anywhere unlocks sound.
+      const unlockSound = ()=>{
+        if(bgMusic.muted){ setMuted(false); }
+        document.removeEventListener('click', unlockSound);
+        document.removeEventListener('touchstart', unlockSound);
+      };
+      document.addEventListener('click', unlockSound);
+      document.addEventListener('touchstart', unlockSound);
+
+      // Start when the loader begins fading out, timed to the loading screen exit.
       window.addEventListener('load', ()=>{
-        setTimeout(()=>{
-          if(!musicPlaying) startMusic();
-        }, 800);
+        setTimeout(()=>{ if(!musicPlaying) startMusic(); }, 800);
       });
 
-      // Manual toggle
+      // Play / pause toggle
       musicBtn.addEventListener('click', ()=>{
         if(musicPlaying){
           bgMusic.pause();
@@ -269,6 +291,7 @@
           musicPlaying = false;
         } else {
           bgMusic.currentTime = 0;
+          bgMusic.muted = false;
           bgMusic.play();
           musicBtn.classList.add('playing');
           musicPlaying = true;
