@@ -35,15 +35,36 @@
   <nav>
     <div class="nav-inner">
       <div class="logo"><span class="dot"></span>aryan</div>
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li><a href="#about" data-num="01">about</a></li>
         <li><a href="#skills" data-num="02">skills</a></li>
         <li><a href="#projects" data-num="03">projects</a></li>
         <li><a href="#experience" data-num="04">experience</a></li>
       </ul>
+      <div class="music-player" id="musicPlayer">
+        <label class="volume-control" for="volumeControl">
+          <span class="volume-label">Volume</span>
+          <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.4" aria-label="Volume">
+        </label>
+        <button class="music-btn" id="musicBtn" aria-label="Toggle music">
+          <span class="music-icon" id="musicIcon" aria-hidden="true">◖))</span>
+          <span class="sound-label">SOUND</span>
+          <span class="music-ring"></span>
+        </button>
+      </div>
       <a href="#contact" class="nav-cta">say hi →</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="nav-menu" id="navMenu">
+    <a href="#about" data-num="01">about</a>
+    <a href="#skills" data-num="02">skills</a>
+    <a href="#projects" data-num="03">projects</a>
+    <a href="#experience" data-num="04">experience</a>
+    <a href="#contact" class="nav-cta-mobile">say hi →</a>
+  </div>
 
 <main>
   <header class="hero wrap">
@@ -301,6 +322,11 @@
 <footer>
   <div class="wrap">© 2026 Aryan Singh Thakur · Full Stack Developer</div>
 </footer>
+
+
+<audio id="bgMusic" loop autoplay preload="auto">
+  <source src="hola-amigo.mp3" type="audio/mpeg">
+</audio>
 
 <script src="aryan.js"></script>
 

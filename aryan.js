@@ -130,45 +130,148 @@
     loop();
   }
 
-  // custom floating cursor
-  const hasFinePointer = window.matchMedia('(pointer:fine)').matches;
-  if(hasFinePointer && !reduceMotion){
-    document.documentElement.classList.add('has-cursor');
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    const label = document.getElementById('cursorLabel');
+   // custom floating cursor
+   const hasFinePointer = window.matchMedia('(pointer:fine)').matches;
+   if(hasFinePointer && !reduceMotion){
+     document.documentElement.classList.add('has-cursor');
+     const dot = document.getElementById('cursorDot');
+     const ring = document.getElementById('cursorRing');
+     const label = document.getElementById('cursorLabel');
 
-    let mx = -100, my = -100;      // raw pointer position
-    let rx = -100, ry = -100;      // ring trailing position
-    let active = false;
+     let mx = -100, my = -100;      // raw pointer position
+     let rx = -100, ry = -100;      // ring trailing position
+     let active = false;
 
-    window.addEventListener('mousemove', (e)=>{
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
-      label.style.transform = `translate(${mx}px, ${my + 34}px) translate(-50%,-50%)`;
-      if(!active){ active = true; dot.classList.add('active'); ring.classList.add('active'); }
-    });
-    window.addEventListener('mouseleave', ()=>{
-      active = false; dot.classList.remove('active'); ring.classList.remove('active');
-    });
+     window.addEventListener('mousemove', (e)=>{
+       mx = e.clientX; my = e.clientY;
+       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+       label.style.transform = `translate(${mx}px, ${my + 34}px) translate(-50%,-50%)`;
+       if(!active){ active = true; dot.classList.add('active'); ring.classList.add('active'); }
+     });
+     window.addEventListener('mouseleave', ()=>{
+       active = false; dot.classList.remove('active'); ring.classList.remove('active');
+     });
 
-    function ringLoop(){
-      rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
-      requestAnimationFrame(ringLoop);
+     function ringLoop(){
+       rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
+       ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+       requestAnimationFrame(ringLoop);
+     }
+     ringLoop();
+
+     const hoverables = document.querySelectorAll('a, button, .project-card, .chip, .edu-card, .achv, .skill-group');
+     hoverables.forEach(el=>{
+       el.addEventListener('mouseenter', ()=>{
+         ring.classList.add('hover');
+         const isLink = el.tagName === 'A' || el.tagName === 'BUTTON';
+         if(isLink){ label.textContent = el.hasAttribute('target') ? 'Open' : 'Go'; label.classList.add('show'); }
+       });
+       el.addEventListener('mouseleave', ()=>{
+         ring.classList.remove('hover');
+         label.classList.remove('show');
+       });
+     });
+   }
+
+   // mobile nav toggle
+   const navToggle = document.getElementById('navToggle');
+   const navMenu = document.querySelector('.nav-menu');
+   if(navToggle && navMenu){
+     navToggle.addEventListener('click', ()=>{
+       const isOpen = navMenu.classList.contains('open');
+       if(isOpen){
+         navMenu.classList.remove('open');
+         navToggle.classList.remove('active');
+         document.body.style.overflow = '';
+       } else {
+         navMenu.classList.add('open');
+         navToggle.classList.add('active');
+         document.body.style.overflow = 'hidden';
+       }
+     });
+      navMenu.querySelectorAll('a').forEach(link=>{
+        link.addEventListener('click', ()=>{
+          navMenu.classList.remove('open');
+          navToggle.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
     }
-    ringLoop();
 
-    const hoverables = document.querySelectorAll('a, button, .project-card, .chip, .edu-card, .achv, .skill-group');
-    hoverables.forEach(el=>{
-      el.addEventListener('mouseenter', ()=>{
-        ring.classList.add('hover');
-        const isLink = el.tagName === 'A' || el.tagName === 'BUTTON';
-        if(isLink){ label.textContent = el.hasAttribute('target') ? 'Open' : 'Go'; label.classList.add('show'); }
+    // background music player - Hola Amigo (first 30s intro loop)
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const volumeControl = document.getElementById('volumeControl');
+    let musicPlaying = false;
+
+    if(bgMusic && musicBtn){
+      // Set volume
+      bgMusic.volume = volumeControl ? Number(volumeControl.value) : 0.4;
+
+      if(volumeControl){
+        volumeControl.addEventListener('input', ()=>{
+          bgMusic.volume = Number(volumeControl.value);
+          volumeControl.style.background = `linear-gradient(to right, var(--accent) 0 ${bgMusic.volume * 100}%, rgba(255,255,255,0.1) ${bgMusic.volume * 100}% 100%)`;
+        });
+      }
+
+      // Loop only first 30 seconds (intro part)
+      bgMusic.addEventListener('timeupdate', ()=>{
+        if(bgMusic.currentTime >= 30){
+          bgMusic.currentTime = 0;
+        }
       });
-      el.addEventListener('mouseleave', ()=>{
-        ring.classList.remove('hover');
-        label.classList.remove('show');
+
+      // Auto-play on page load (browsers may block)
+      const startMusic = ()=>{
+        bgMusic.currentTime = 0;
+        const playPromise = bgMusic.play();
+        if(playPromise !== undefined){
+          playPromise.then(()=>{
+            musicBtn.classList.add('playing');
+            musicPlaying = true;
+          }).catch(()=>{
+            // Try muted autoplay first; Safari may allow this even when audible autoplay is blocked.
+            bgMusic.muted = true;
+            const mutedPlayPromise = bgMusic.play();
+            if(mutedPlayPromise !== undefined){
+              mutedPlayPromise.then(()=>{
+                bgMusic.muted = false;
+                musicBtn.classList.add('playing');
+                musicPlaying = true;
+              }).catch(()=>{
+                document.body.addEventListener('click', ()=>{
+                  if(!musicPlaying){
+                    bgMusic.muted = false;
+                    bgMusic.play();
+                    musicBtn.classList.add('playing');
+                    musicPlaying = true;
+                  }
+                }, { once: true });
+              });
+            }
+          });
+        }
+      };
+
+      // Start when the loader begins fading out, so the intro stays behind the loading screen.
+      window.addEventListener('load', ()=>{
+        setTimeout(()=>{
+          if(!musicPlaying) startMusic();
+        }, 800);
       });
-    });
-  }
+
+      // Manual toggle
+      musicBtn.addEventListener('click', ()=>{
+        if(musicPlaying){
+          bgMusic.pause();
+          musicBtn.classList.remove('playing');
+          musicPlaying = false;
+        } else {
+          bgMusic.currentTime = 0;
+          bgMusic.play();
+          musicBtn.classList.add('playing');
+          musicPlaying = true;
+        }
+      });
+    }
