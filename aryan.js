@@ -64,28 +64,70 @@
     }, { passive:true });
   }
 
-  // loader
+  // loader: cycles through 15 greetings, closes only after all shown + page loaded
   const loader = document.getElementById('loader');
-  const loaderPercent = document.getElementById('loaderPercent');
-  let progress = 0;
-  const loaderInterval = setInterval(()=>{
-    progress += Math.random() * 15 + 5;
-    if(progress > 100) progress = 100;
-    loaderPercent.textContent = Math.floor(progress) + '%';
-    if(progress >= 100) clearInterval(loaderInterval);
-  }, 150);
+  const loaderHello = document.getElementById('loaderHello');
+  const greetings = [
+    'नमस्ते', 'प्रणाम', 'নমস্কার', 'வணக்கம்', 'నమస్కారం',
+    'नमस्कार', 'નમસ્તે', 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'നമസ്കാരം', 'ನಮಸ್ಕಾರ',
+    'Hello', '안녕하세요', 'Bonjour', 'こんにちは', 'Hola'
+  ];
+  const total = greetings.length;
+  let idx = 0;
+  let done = false;
+  let loaded = false;
+  // set to true by the greeting loop when "Hola" appears;
+  // music player picks this up once startMusic is defined
+  let triggerMusicOnHola = false;
+  let holaClicked = false;
 
-  window.addEventListener('load', ()=>{
-    clearInterval(loaderInterval);
-    loaderPercent.textContent = '100%';
+  function close(){
+    if(loaded && done){
+      window.scrollTo(0, 0);
+      setTimeout(()=>{
+        loader.classList.add('hidden');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }, 300);
+    }
+  }
+
+  window.addEventListener('load', ()=>{ loaded = true; close(); });
+
+  function next(){
+    if(idx >= total){
+      done = true;
+      close();
+      return;
+    }
+    loaderHello.style.opacity = '0';
     setTimeout(()=>{
-      loader.classList.add('hidden');
-      document.body.style.overflow = '';
-    }, 800);
-  });
-  document.body.style.overflow = 'hidden';
+      const word = greetings[idx++];
+      loaderHello.textContent = word;
+      loaderHello.style.opacity = '1';
+      // signal music to start when "Hola" appears
+      if(word === 'Hola'){
+        triggerMusicOnHola = true;
+        loader.classList.add('ready');
+        return;
+      }
+      setTimeout(next, 500);
+    }, 200);
+  }
+  setTimeout(next, 400);
 
-  // scroll reveal with stagger
+  loader.addEventListener('click', ()=>{
+    if(!triggerMusicOnHola || holaClicked) return;
+    holaClicked = true;
+    loader.classList.remove('ready');
+    loader.classList.add('entering');
+    done = true;
+    window.dispatchEvent(new Event('hola-enter'));
+    close();
+  });
+
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
   const revealEls = document.querySelectorAll('.reveal-el, .reveal-left, .reveal-right, .reveal-scale');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
@@ -186,7 +228,8 @@
        } else {
          navMenu.classList.add('open');
          navToggle.classList.add('active');
-         document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
        }
      });
       navMenu.querySelectorAll('a').forEach(link=>{
@@ -204,6 +247,8 @@
     const volumeControl = document.getElementById('volumeControl');
     const TARGET_VOLUME = volumeControl ? Number(volumeControl.value) : 0.4;
     let musicPlaying = false;
+    let musicUnlockPending = false;
+    let musicStartPending = false;
 
     if(bgMusic && musicBtn){
       // volume stays at the user's slider value (0.4 default); the slider is
@@ -239,48 +284,33 @@
       // you toggle mute on a playing element without a gesture, so it can sound
       // with no tap at all.
       const startMusic = ()=>{
+        if(musicPlaying || musicStartPending) return;
+        musicStartPending = true;
+        musicUnlockPending = false;
         bgMusic.currentTime = 0;
         bgMusic.volume = TARGET_VOLUME;
         setMuted(false);
         bgMusic.play().then(()=>{
           musicBtn.classList.add('playing');
           musicPlaying = true;
+          musicStartPending = false;
+          musicUnlockPending = false;
         }).catch(()=>{
-          // audible autoplay blocked (fresh visit) — prime with muted play, then unmute
-          bgMusic.muted = true;
-          bgMusic.play().then(()=>{
-            musicBtn.classList.add('playing');
-            musicPlaying = true;
-            setMuted(false);
-          }).catch(()=>{
-            // still blocked — enable on first interaction
-            const onFirstInteract = ()=>{
-              bgMusic.currentTime = 0;
-              bgMusic.muted = false;
-              bgMusic.play();
-              musicBtn.classList.add('playing');
-              musicPlaying = true;
-              document.removeEventListener('click', onFirstInteract);
-              document.removeEventListener('touchstart', onFirstInteract);
-            };
-            document.addEventListener('click', onFirstInteract);
-            document.addEventListener('touchstart', onFirstInteract);
-          });
+          // Browsers may block sound until the visitor interacts with the page.
+          musicStartPending = false;
+          musicUnlockPending = true;
         });
       };
 
-      // If stuck muted, the first tap anywhere unlocks sound.
-      const unlockSound = ()=>{
-        if(bgMusic.muted){ setMuted(false); }
-        document.removeEventListener('click', unlockSound);
-        document.removeEventListener('touchstart', unlockSound);
-      };
-      document.addEventListener('click', unlockSound);
-      document.addEventListener('touchstart', unlockSound);
+      window.addEventListener('hola-enter', startMusic);
 
-      // Start when the loader begins fading out, timed to the loading screen exit.
-      window.addEventListener('load', ()=>{
-        setTimeout(()=>{ if(!musicPlaying) startMusic(); }, 800);
+      const unlockMusic = ()=>{
+        if(triggerMusicOnHola && musicUnlockPending && !musicPlaying){
+          startMusic();
+        }
+      };
+      ['click', 'touchstart', 'pointerdown', 'scroll', 'wheel'].forEach(eventName=>{
+        document.addEventListener(eventName, unlockMusic, { passive:true });
       });
 
       // Play / pause toggle

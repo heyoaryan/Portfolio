@@ -22,14 +22,19 @@
   position:fixed; inset:0; z-index:10000;
   background:var(--bg);
   display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
   transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 .loader.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
-.loader-inner{ text-align:center; width:220px; }
+.loader-inner{
+   text-align:center; width:min(100%, 340px); height:100%; padding:0 20px;
+   position:absolute; top:0; left:50%; transform:translateX(-50%);
+}
 .loader-ring{
-  width:64px; height:64px; margin:0 auto 28px;
+   width:56px; height:56px; margin:0;
   border:2px solid var(--line); border-radius:50%;
-  position:relative; opacity:0; animation: loader-fade 0.6s ease forwards;
+   position:absolute; top:calc(50% - 88px); left:50%; transform:translateX(-50%);
+   opacity:0; animation: loader-fade 0.6s ease forwards;
 }
 .loader-ring::before{
   content:''; position:absolute; inset:-2px; border-radius:50%;
@@ -43,47 +48,31 @@
   animation: loader-spin 1.5s linear infinite reverse;
   filter:drop-shadow(0 0 6px var(--accent-warm));
 }
-.loader-logo{
-  font-family:var(--font-display); font-size:18px; font-weight:600;
-  color:var(--text); letter-spacing:-0.02em; margin-bottom:8px;
-  opacity:0; animation: loader-fade 0.6s ease 0.3s forwards;
+.loader-hello{
+  font-family:var(--font-display); font-size:clamp(1.6rem, 6vw, 2.2rem); font-weight:600;
+  color:var(--text); letter-spacing:-0.01em;
+   position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+   opacity:0; animation: loader-fade 0.6s ease 0.7s forwards;
+  min-height:36px;
+  transition: opacity 0.3s ease;
+  word-break: keep-all;
 }
-.loader-sub{
-  font-family:var(--font-mono); font-size:11px; color:var(--text-dim);
-  margin-bottom:28px; letter-spacing:0.08em; text-transform:uppercase;
-  opacity:0; animation: loader-fade 0.6s ease 0.5s forwards;
+.loader-prompt{
+   position:absolute; top:calc(50% + 52px); left:50%; transform:translateX(-50%);
+   font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em;
+   color:var(--text-muted); opacity:0; pointer-events:none;
+   transition:opacity 0.35s ease, color 0.25s ease;
 }
-.loader-bar{
-  width:100%; height:2px; background:var(--line); border-radius:2px; overflow:hidden;
-  position:relative;
+.loader.ready{ cursor:pointer; }
+.loader.ready .loader-prompt{ opacity:1; animation:prompt-pulse 1.6s ease-in-out infinite; }
+.loader.ready .loader-prompt::after{ content:'  ↗'; color:var(--accent-warm); }
+.loader.ready:hover .loader-prompt{ color:var(--text); }
+.loader.entering .loader-hello{
+   opacity:0; transform:translate(-50%, -50%) scale(4);
+   transition:transform 0.65s cubic-bezier(.2,.8,.2,1), opacity 0.45s ease;
 }
-.loader-fill{
-  height:100%; width:0; background:var(--accent); border-radius:2px;
-  box-shadow:0 0 12px var(--accent), 0 0 4px var(--accent);
-  animation: loader-fill 1.6s cubic-bezier(.4,.8,.2,1) forwards;
-}
-.loader-fill::after{
-  content:''; position:absolute; top:0; right:0; width:40px; height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
-  animation: loader-shimmer 1s ease infinite;
-}
-.loader-percent{
-  font-family:var(--font-mono); font-size:11px; color:var(--accent);
-  margin-top:10px; letter-spacing:0.05em;
-  opacity:0; animation: loader-fade 0.6s ease 0.4s forwards;
-}
-@keyframes loader-fill{ to{ width:100%; } }
-@keyframes loader-fade{ to{ opacity:1; } }
-@keyframes loader-spin{ to{ transform:rotate(360deg); } }
-@keyframes loader-shimmer{ 0%{ transform:translateX(-100%); } 100%{ transform:translateX(300%); } }
-@keyframes loader-pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.05); } }
-
-@media (prefers-reduced-motion: reduce){
-  .loader-fill{ animation:none; width:100%; }
-  .loader-ring::before, .loader-ring::after{ animation:none; }
-  .loader-fill::after{ animation:none; }
-  .loader-logo, .loader-sub, .loader-percent{ animation:none; opacity:1; }
-}
+.loader.entering .loader-prompt{ opacity:0; }
+@keyframes prompt-pulse{ 0%,100%{ opacity:0.45; } 50%{ opacity:1; } }
 
 html{ scroll-behavior:smooth; color-scheme:dark; text-size-adjust:100%; overflow-x:hidden; }
 
