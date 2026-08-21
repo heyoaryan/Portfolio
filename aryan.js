@@ -10,8 +10,8 @@
     }
     text.split('').forEach(ch => {
       const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      span.className = ch === ' ' ? 'char space' : 'char';
+      span.textContent = ch;
       span.style.animationDelay = (0.3 + charCount * 0.018) + 's';
       line.appendChild(span);
       charCount++;

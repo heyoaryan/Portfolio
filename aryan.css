@@ -235,7 +235,11 @@ h1.hero-title .line.muted{
 h1.hero-title .line{ display:block; overflow:hidden; padding-bottom:0.08em; }
 h1.hero-title .char{
    display:inline-block; opacity:0; transform:translateY(100%) rotate(4deg);
+   white-space:normal;
    animation: char-in 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+h1.hero-title .char.space{
+   display:inline; opacity:1; transform:none; animation:none;
 }
 @keyframes char-in{ to{ opacity:1; transform:translateY(0) rotate(0); } }
 
@@ -504,7 +508,15 @@ footer{
    .volume-label{ display:none; }
    #volumeControl{ width:60px; }
     .music-btn{ min-width:88px; padding:0 9px; }
-    .hero-meta{ flex-direction:column; gap:18px; }
+      .hero-meta{
+         display:grid;
+         grid-template-columns:repeat(3, minmax(0, 1fr));
+         gap:10px;
+         width:100%;
+      }
+      .meta-item{ min-width:0; text-align:center; }
+      .meta-item .num{ font-size:22px; }
+      .meta-item .label{ font-size:9px; line-height:1.45; }
    .hero-actions{ flex-direction:column; }
    .btn{ width:100%; justify-content:center; }
    .contact-actions{ flex-direction:column; }
@@ -521,6 +533,10 @@ footer{
    .nav-cta{ padding:7px 12px; font-size:11px; }
    .logo{ font-size:13px; }
    .section-head{ margin-bottom:36px; }
+   h1.hero-title{
+      font-size:clamp(1.7rem, 8.2vw, 2.8rem);
+   }
+   h1.hero-title .line{ overflow:visible; }
    .gitlog{ padding-left:24px; }
    .commit::before{ left:-24px; width:9px; height:9px; }
    .commit{ padding-bottom:28px; }
@@ -621,4 +637,8 @@ html.has-cursor, html.has-cursor *{ cursor:none !important; }
 
 @media (pointer:coarse){
   .cursor-dot, .cursor-ring, .cursor-label{ display:none; }
+}
+
+@media (max-width:339px){
+   .music-player{ display:none; }
 }
