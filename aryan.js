@@ -249,6 +249,7 @@
     let musicPlaying = false;
     let musicUnlockPending = false;
     let musicStartPending = false;
+    let resumeMusicOnReturn = false;
 
     if(bgMusic && musicBtn){
       // volume stays at the user's slider value (0.4 default); the slider is
@@ -293,6 +294,7 @@
         bgMusic.play().then(()=>{
           musicBtn.classList.add('playing');
           musicPlaying = true;
+          resumeMusicOnReturn = true;
           musicStartPending = false;
           musicUnlockPending = false;
         }).catch(()=>{
@@ -313,18 +315,45 @@
         document.addEventListener(eventName, unlockMusic, { passive:true });
       });
 
+      const pauseForInactivePage = ()=>{
+        if(!musicPlaying || bgMusic.paused) return;
+        resumeMusicOnReturn = true;
+        bgMusic.pause();
+        musicBtn.classList.remove('playing');
+        musicPlaying = false;
+      };
+
+      const resumeForActivePage = ()=>{
+        if(!resumeMusicOnReturn || !triggerMusicOnHola || musicPlaying || document.visibilityState !== 'visible') return;
+        bgMusic.play().then(()=>{
+          musicBtn.classList.add('playing');
+          musicPlaying = true;
+        }).catch(()=>{
+          // The browser may require an interaction before resuming audio.
+        });
+      };
+
+      document.addEventListener('visibilitychange', ()=>{
+        if(document.visibilityState === 'hidden') pauseForInactivePage();
+        else resumeForActivePage();
+      });
+      window.addEventListener('blur', pauseForInactivePage);
+      window.addEventListener('focus', resumeForActivePage);
+
       // Play / pause toggle
       musicBtn.addEventListener('click', ()=>{
         if(musicPlaying){
           bgMusic.pause();
           musicBtn.classList.remove('playing');
           musicPlaying = false;
+          resumeMusicOnReturn = false;
         } else {
           bgMusic.currentTime = 0;
           bgMusic.muted = false;
           bgMusic.play();
           musicBtn.classList.add('playing');
           musicPlaying = true;
+          resumeMusicOnReturn = true;
         }
       });
     }
