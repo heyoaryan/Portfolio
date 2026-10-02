@@ -33,7 +33,7 @@
 
   <nav>
     <div class="nav-inner">
-      <a href="#top" class="logo"><span class="dot"></span>aryan</a>
+      <a href="#top" class="logo"><span class="dot"></span></a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about" data-num="01">about</a></li>
         <li><a href="#skills" data-num="02">skills</a></li>
@@ -86,10 +86,33 @@
       <div class="meta-item"><div class="num">5+</div><div class="label">WINS &amp; TOP FINISHES</div></div>
       <div class="meta-item"><div class="num">15+</div><div class="label">PROJECTS BUILT</div></div>
     </div>
-    <div class="marquee">
-      <div class="marquee-track" id="marqueeTrack">
-        <span>React · Next.js · Node.js · TypeScript · MongoDB · Tailwind CSS · GSAP · Framer Motion</span>
-        <span>React · Next.js · Node.js · TypeScript · MongoDB · Tailwind CSS · GSAP · Framer Motion</span>
+    <div class="marquee-wave-wrap" aria-hidden="true">
+      <!-- Wavy SVG path that chips will travel along (JS reads this) -->
+      <svg class="marquee-wave-svg" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="wavePath" d="M0,45 C100,10 200,80 300,45 C400,10 500,80 600,45 C700,10 800,80 900,45 C1000,10 1100,80 1200,45" fill="none" stroke="none"/>
+      </svg>
+      <div class="marquee-wave-track" id="marqueeWaveTrack">
+        <div class="mw-chip" style="--i:0"><i class="devicon-react-original" aria-hidden="true"></i><span>React</span></div>
+        <div class="mw-chip" style="--i:1"><i class="devicon-nextjs-plain" aria-hidden="true"></i><span>Next.js</span></div>
+        <div class="mw-chip" style="--i:2"><i class="devicon-nodejs-plain" aria-hidden="true"></i><span>Node.js</span></div>
+        <div class="mw-chip" style="--i:3"><i class="devicon-typescript-plain" aria-hidden="true"></i><span>TypeScript</span></div>
+        <div class="mw-chip" style="--i:4"><i class="devicon-mongodb-plain" aria-hidden="true"></i><span>MongoDB</span></div>
+        <div class="mw-chip" style="--i:5"><i class="devicon-tailwindcss-original" aria-hidden="true"></i><span>Tailwind</span></div>
+        <div class="mw-chip" style="--i:6"><i class="devicon-python-plain" aria-hidden="true"></i><span>Python</span></div>
+        <div class="mw-chip" style="--i:7"><i class="devicon-git-plain" aria-hidden="true"></i><span>Git</span></div>
+        <div class="mw-chip" style="--i:8"><i class="devicon-firebase-plain" aria-hidden="true"></i><span>Firebase</span></div>
+        <div class="mw-chip" style="--i:9"><i class="devicon-javascript-plain" aria-hidden="true"></i><span>JavaScript</span></div>
+        <!-- duplicate set for seamless loop -->
+        <div class="mw-chip" style="--i:10"><i class="devicon-react-original" aria-hidden="true"></i><span>React</span></div>
+        <div class="mw-chip" style="--i:11"><i class="devicon-nextjs-plain" aria-hidden="true"></i><span>Next.js</span></div>
+        <div class="mw-chip" style="--i:12"><i class="devicon-nodejs-plain" aria-hidden="true"></i><span>Node.js</span></div>
+        <div class="mw-chip" style="--i:13"><i class="devicon-typescript-plain" aria-hidden="true"></i><span>TypeScript</span></div>
+        <div class="mw-chip" style="--i:14"><i class="devicon-mongodb-plain" aria-hidden="true"></i><span>MongoDB</span></div>
+        <div class="mw-chip" style="--i:15"><i class="devicon-tailwindcss-original" aria-hidden="true"></i><span>Tailwind</span></div>
+        <div class="mw-chip" style="--i:16"><i class="devicon-python-plain" aria-hidden="true"></i><span>Python</span></div>
+        <div class="mw-chip" style="--i:17"><i class="devicon-git-plain" aria-hidden="true"></i><span>Git</span></div>
+        <div class="mw-chip" style="--i:18"><i class="devicon-firebase-plain" aria-hidden="true"></i><span>Firebase</span></div>
+        <div class="mw-chip" style="--i:19"><i class="devicon-javascript-plain" aria-hidden="true"></i><span>JavaScript</span></div>
       </div>
     </div>
     <div class="scroll-cue"><span class="line"></span>SCROLL</div>

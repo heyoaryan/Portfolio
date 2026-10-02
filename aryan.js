@@ -64,6 +64,84 @@
     }, { passive:true });
   }
 
+  // ---- WAVY MARQUEE (SVG path-following chips, infinite seamless loop) ----
+  (function initWavyMarquee(){
+    if(reduceMotion) return;
+
+    const wrap   = document.querySelector('.marquee-wave-wrap');
+    const track  = document.getElementById('marqueeWaveTrack');
+    const svgEl  = wrap && wrap.querySelector('.marquee-wave-svg');
+    const pathEl = svgEl && svgEl.querySelector('#wavePath');
+    if(!wrap || !track || !pathEl) return;
+
+    const chips = Array.from(track.querySelectorAll('.mw-chip'));
+    const COUNT = chips.length / 2;   // 10 originals + 10 duplicates
+    const GAP   = 148;                // px between chip centres
+    const LOOP  = COUNT * GAP;        // total width of ONE full set
+    const SPEED = 0.5;                // px per rAF frame
+
+    let offset = 0;
+    let wrapW  = wrap.offsetWidth;
+    const totalPathLen = pathEl.getTotalLength();
+
+    // Binary-search: given SVG-space x (0–1200), return y on the wave path
+    function waveYforSvgX(svgX){
+      let lo = 0, hi = totalPathLen, pt;
+      for(let i = 0; i < 16; i++){
+        const mid = (lo + hi) / 2;
+        pt = pathEl.getPointAtLength(mid);
+        if(pt.x < svgX) lo = mid; else hi = mid;
+      }
+      return pathEl.getPointAtLength((lo + hi) / 2).y; // 0–90 SVG units
+    }
+
+    // Given a pixel x on screen, get the pixel y on the wave
+    function waveY(screenX){
+      // Map screenX → SVG viewBox x [0…1200], clamped
+      const svgX = Math.min(Math.max(screenX, 0), wrapW) / wrapW * 1200;
+      const svgY = waveYforSvgX(svgX);
+      return (svgY / 90) * wrap.offsetHeight;
+    }
+
+    function positionChips(){
+      chips.forEach((chip, idx) => {
+        // Set 0: indices 0–(COUNT-1)  → base offset 0
+        // Set 1: indices COUNT–(2*COUNT-1) → base offset LOOP (one full set to the right)
+        const setOffset = idx < COUNT ? 0 : LOOP;
+        // x position in pixels, scrolling left as offset grows
+        let x = setOffset + (idx % COUNT) * GAP - offset;
+
+        // Seamless wrap: once a chip goes fully off-screen left, jump it LOOP*2 to the right
+        // This means Set 0 and Set 1 leapfrog each other endlessly
+        if(x < -GAP) x += LOOP * 2;
+
+        const y = waveY(x);
+        chip.style.left = x + 'px';
+        chip.style.top  = (y - chip.offsetHeight / 2) + 'px';
+      });
+    }
+
+    let rafId;
+    function tick(){
+      offset += SPEED;
+      // Reset offset every LOOP to prevent float drift over very long sessions
+      if(offset >= LOOP) offset -= LOOP;
+      positionChips();
+      rafId = requestAnimationFrame(tick);
+    }
+
+    // Initial paint, then start loop
+    requestAnimationFrame(() => {
+      positionChips();
+      rafId = requestAnimationFrame(tick);
+    });
+
+    window.addEventListener('resize', () => {
+      wrapW = wrap.offsetWidth;
+    }, { passive: true });
+  })();
+  // ---- END WAVY MARQUEE ----
+
   // loader: cycles through 15 greetings, closes only after all shown + page loaded
   const loader = document.getElementById('loader');
   const loaderHello = document.getElementById('loaderHello');
@@ -224,21 +302,17 @@
        if(isOpen){
          navMenu.classList.remove('open');
          navToggle.classList.remove('active');
-         document.body.style.overflow = '';
        } else {
          navMenu.classList.add('open');
          navToggle.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
        }
      });
-      navMenu.querySelectorAll('a').forEach(link=>{
-        link.addEventListener('click', ()=>{
-          navMenu.classList.remove('open');
-          navToggle.classList.remove('active');
-          document.body.style.overflow = '';
-        });
-      });
+     navMenu.querySelectorAll('a').forEach(link=>{
+       link.addEventListener('click', ()=>{
+         navMenu.classList.remove('open');
+         navToggle.classList.remove('active');
+       });
+     });
    }
 
     // background music player - Hola Amigo (intro loop)
