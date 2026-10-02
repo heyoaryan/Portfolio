@@ -70,49 +70,49 @@
 
     const wrap   = document.querySelector('.marquee-wave-wrap');
     const track  = document.getElementById('marqueeWaveTrack');
-    const svgEl  = wrap && wrap.querySelector('.marquee-wave-svg');
-    const pathEl = svgEl && svgEl.querySelector('#wavePath');
-    if(!wrap || !track || !pathEl) return;
+    if(!wrap || !track) return;
 
-    const chips = Array.from(track.querySelectorAll('.mw-chip'));
-    const COUNT = chips.length / 2;   // 10 originals + 10 duplicates
-    const GAP   = 148;                // px between chip centres
-    const LOOP  = COUNT * GAP;        // total width of ONE full set
-    const SPEED = 0.5;                // px per rAF frame
+    const chips  = Array.from(track.querySelectorAll('.mw-chip'));
+    const COUNT  = chips.length / 2;   // 10 originals + 10 duplicates
+    const GAP    = 148;                // px between chip centres
+    const LOOP   = COUNT * GAP;        // total width of ONE full set
+    // mobile gets slightly faster marquee speed
+    const SPEED  = isMobile ? 0.7 : 0.5;
 
     let offset = 0;
     let wrapW  = wrap.offsetWidth;
-    const totalPathLen = pathEl.getTotalLength();
 
-    // Binary-search: given SVG-space x (0–1200), return y on the wave path
-    function waveYforSvgX(svgX){
-      let lo = 0, hi = totalPathLen, pt;
+    // On desktop use SVG path; on mobile use fast sine approximation
+    const svgEl  = wrap.querySelector('.marquee-wave-svg');
+    const pathEl = svgEl && svgEl.querySelector('#wavePath');
+    const usesSVG = !isMobile && !!pathEl;
+    const totalPathLen = usesSVG ? pathEl.getTotalLength() : 0;
+    const wrapH  = wrap.offsetHeight;
+
+    // Binary-search on SVG path (desktop only)
+    function waveYviaSVG(screenX){
+      const svgX = Math.min(Math.max(screenX, 0), wrapW) / wrapW * 1200;
+      let lo = 0, hi = totalPathLen;
       for(let i = 0; i < 16; i++){
         const mid = (lo + hi) / 2;
-        pt = pathEl.getPointAtLength(mid);
-        if(pt.x < svgX) lo = mid; else hi = mid;
+        if(pathEl.getPointAtLength(mid).x < svgX) lo = mid; else hi = mid;
       }
-      return pathEl.getPointAtLength((lo + hi) / 2).y; // 0–90 SVG units
+      return (pathEl.getPointAtLength((lo + hi) / 2).y / 90) * wrapH;
     }
 
-    // Given a pixel x on screen, get the pixel y on the wave
-    function waveY(screenX){
-      // Map screenX → SVG viewBox x [0…1200], clamped
-      const svgX = Math.min(Math.max(screenX, 0), wrapW) / wrapW * 1200;
-      const svgY = waveYforSvgX(svgX);
-      return (svgY / 90) * wrap.offsetHeight;
+    // Fast sine wave (mobile — zero DOM queries)
+    function waveYviaMath(screenX){
+      const t = (screenX / wrapW) * Math.PI * 2;   // 0 → 2π across width
+      // amplitude = 30% of wrap height, centred
+      return wrapH / 2 + Math.sin(t) * (wrapH * 0.30);
     }
+
+    const waveY = usesSVG ? waveYviaSVG : waveYviaMath;
 
     function positionChips(){
       chips.forEach((chip, idx) => {
-        // Set 0: indices 0–(COUNT-1)  → base offset 0
-        // Set 1: indices COUNT–(2*COUNT-1) → base offset LOOP (one full set to the right)
         const setOffset = idx < COUNT ? 0 : LOOP;
-        // x position in pixels, scrolling left as offset grows
         let x = setOffset + (idx % COUNT) * GAP - offset;
-
-        // Seamless wrap: once a chip goes fully off-screen left, jump it LOOP*2 to the right
-        // This means Set 0 and Set 1 leapfrog each other endlessly
         if(x < -GAP) x += LOOP * 2;
 
         const y = waveY(x);
@@ -124,13 +124,11 @@
     let rafId;
     function tick(){
       offset += SPEED;
-      // Reset offset every LOOP to prevent float drift over very long sessions
       if(offset >= LOOP) offset -= LOOP;
       positionChips();
       rafId = requestAnimationFrame(tick);
     }
 
-    // Initial paint, then start loop
     requestAnimationFrame(() => {
       positionChips();
       rafId = requestAnimationFrame(tick);
@@ -142,14 +140,21 @@
   })();
   // ---- END WAVY MARQUEE ----
 
-  // loader: cycles through 15 greetings, closes only after all shown + page loaded
+  const isMobile = window.innerWidth <= 820;
+
+  // loader: on mobile fewer greetings for faster entry
   const loader = document.getElementById('loader');
   const loaderHello = document.getElementById('loaderHello');
-  const greetings = [
-    'नमस्ते', 'प्रणाम', 'নমস্কার', 'வணக்கம்', 'నమస్కారం',
-    'नमस्कार', 'નમસ્તે', 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'നമസ്കാരം', 'ನಮಸ್ಕಾರ',
-    'Hello', '안녕하세요', 'Bonjour', 'こんにちは', 'Hola'
-  ];
+  const greetings = isMobile
+    ? ['नमस्ते', 'Hello', 'Bonjour', 'こんにちは', 'Hola']
+    : [
+        'नमस्ते', 'प्रणाम', 'নমস্কার', 'வணக்கம்', 'నమస్కారం',
+        'नमस्कार', 'નમસ્તે', 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'നമസ്കാരം', 'ನಮಸ್ಕಾರ',
+        'Hello', '안녕하세요', 'Bonjour', 'こんにちは', 'Hola'
+      ];
+  // mobile: faster swap (300ms instead of 500ms)
+  const GREET_INTERVAL = isMobile ? 300 : 500;
+  const GREET_FADE     = isMobile ? 120 : 200;
   const total = greetings.length;
   let idx = 0;
   let done = false;
@@ -183,16 +188,15 @@
       const word = greetings[idx++];
       loaderHello.textContent = word;
       loaderHello.style.opacity = '1';
-      // signal music to start when "Hola" appears
       if(word === 'Hola'){
         triggerMusicOnHola = true;
         loader.classList.add('ready');
         return;
       }
-      setTimeout(next, 500);
-    }, 200);
+      setTimeout(next, GREET_INTERVAL);
+    }, GREET_FADE);
   }
-  setTimeout(next, 400);
+  setTimeout(next, isMobile ? 200 : 400);
 
   loader.addEventListener('click', ()=>{
     if(!triggerMusicOnHola || holaClicked) return;

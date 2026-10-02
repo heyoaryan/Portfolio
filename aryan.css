@@ -23,7 +23,7 @@
   background:var(--bg);
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 .loader.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
 .loader-inner{
