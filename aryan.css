@@ -556,7 +556,7 @@ section{ padding:100px 0; border-top:1px solid var(--line); }
 .contact-title .accent{ color:var(--accent); }
 .contact-sub{ color:var(--text-muted); font-size:15px; margin-bottom:32px; }
 .contact-actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; }
-.contact-links{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; font-family:var(--font-mono); font-size:12px; }
+.contact-links{ display:flex; gap:24px; justify-content:center; flex-wrap:nowrap; font-family:var(--font-mono); font-size:12px; }
 .contact-links a{ color:var(--text-muted); border-bottom:1px solid transparent; padding-bottom:2px; transition: all 0.25s ease; }
 .contact-links a:hover{ color:var(--accent); border-color:var(--accent); }
 .contact-links a::before{ content:'↗'; display:inline-block; margin-right:6px; color:var(--accent-warm); transition:transform 0.25s ease; }
@@ -601,7 +601,7 @@ footer{
    .scroll-cue{ display:none; }
    section{ padding:80px 0; }
    .wrap{ padding:0 20px; }
-   header.hero{ padding-top:142px; }
+   header.hero{ padding-top:90px; }
    .project-card{ padding:26px 22px; }
    .pc-name{ font-size:17px; }
    .pc-desc{ font-size:13px; }
@@ -627,16 +627,15 @@ footer{
       .meta-item{ min-width:0; text-align:center; }
       .meta-item .num{ font-size:22px; }
       .meta-item .label{ font-size:9px; line-height:1.45; }
-   .hero-actions{ flex-direction:column; align-items:stretch; gap:10px; width:100%; }
+   .hero-actions{ flex-direction:row; align-items:center; justify-content:center; gap:10px; width:100%; flex-wrap:wrap; }
    .hero-actions .btn{
-      width:100%; min-width:0; justify-content:center; padding:11px 12px;
-      font-size:11px;
+      width:auto; min-width:0; justify-content:center; padding:11px 24px;
+      font-size:12px;
    }
    .contact-actions{ flex-direction:column; }
-   .contact-links{ flex-direction:column; gap:14px; }
    .nav-menu{ padding:20px 24px; }
    .wrap{ padding:0 20px; }
-   header.hero{ padding-top:142px; padding-bottom:32px; }
+   header.hero{ padding-top:90px; padding-bottom:32px; }
    section{ padding:64px 0; }
    .skill-group{ padding:20px 18px; }
    .project-card{ padding:22px 18px; }
