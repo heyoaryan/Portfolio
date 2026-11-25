@@ -4,342 +4,372 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Aryan Singh Thakur — Full Stack Developer building React, Node.js and IoT products. Based in Delhi.">
-<meta name="theme-color" content="#0a0b0e">
+<meta name="theme-color" content="#000000">
 <title>Aryan Singh Thakur — Full Stack Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="aryan.css">
-<noscript><style>.loader{display:none!important;}</style></noscript>
 </head>
-<body>
+<body class="is-loading">
 
-<div class="loader" id="loader">
-  <div class="loader-inner">
-    <div class="loader-ring"></div>
-    <div class="loader-hello" id="loaderHello">नमस्ते</div>
-    <div class="loader-prompt" id="loaderPrompt">TAP TO ENTER</div>
+<!-- ============ SHARED SVG: Delhi skyline ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="skyline" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
+      <!-- generic blocks -->
+      <rect x="0" y="210" width="70" height="110"/><rect x="60" y="180" width="50" height="140"/>
+      <rect x="105" y="230" width="80" height="90"/><rect x="175" y="150" width="40" height="170"/>
+      <rect x="210" y="200" width="60" height="120"/>
+      <!-- Qutub Minar -->
+      <path d="M283 320 L292 70 L308 70 L317 320 Z"/>
+      <rect x="284" y="250" width="32" height="6"/><rect x="287" y="190" width="26" height="6"/>
+      <rect x="289" y="130" width="22" height="5"/><rect x="291" y="85" width="18" height="5"/>
+      <rect x="296" y="52" width="8" height="20"/>
+      <rect x="330" y="220" width="70" height="100"/><rect x="390" y="170" width="45" height="150"/>
+      <rect x="430" y="240" width="90" height="80"/><rect x="510" y="195" width="55" height="125"/>
+      <rect x="560" y="250" width="70" height="70"/>
+      <!-- India Gate -->
+      <path d="M645 320 V175 H795 V320 H752 V240 A32 32 0 0 0 688 240 V320 Z"/>
+      <rect x="632" y="160" width="176" height="16"/>
+      <rect x="668" y="140" width="104" height="22"/>
+      <rect x="696" y="122" width="48" height="20"/>
+      <rect x="815" y="230" width="60" height="90"/><rect x="870" y="160" width="38" height="160"/>
+      <rect x="905" y="205" width="80" height="115"/><rect x="980" y="245" width="60" height="75"/>
+      <!-- Lotus Temple -->
+      <path d="M1050 320 C1060 270 1085 245 1110 232 C1100 262 1100 292 1105 320 Z"/>
+      <path d="M1100 320 C1095 270 1110 225 1140 200 C1170 225 1185 270 1180 320 Z"/>
+      <path d="M1175 320 C1180 292 1180 262 1170 232 C1195 245 1220 270 1230 320 Z"/>
+      <rect x="1240" y="190" width="50" height="130"/><rect x="1285" y="230" width="75" height="90"/>
+      <rect x="1355" y="170" width="40" height="150"/><rect x="1390" y="215" width="50" height="105"/>
+      <rect x="0" y="312" width="1440" height="8"/>
+    </symbol>
+    <symbol id="skyline-far" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
+      <rect x="20" y="240" width="90" height="80"/><rect x="120" y="200" width="60" height="120"/>
+      <rect x="200" y="255" width="120" height="65"/><rect x="340" y="215" width="70" height="105"/>
+      <rect x="430" y="185" width="50" height="135"/><rect x="500" y="245" width="110" height="75"/>
+      <rect x="620" y="225" width="60" height="95"/><rect x="760" y="205" width="80" height="115"/>
+      <rect x="860" y="250" width="90" height="70"/><rect x="960" y="190" width="45" height="130"/>
+      <rect x="1020" y="235" width="100" height="85"/><rect x="1140" y="205" width="70" height="115"/>
+      <rect x="1230" y="250" width="90" height="70"/><rect x="1330" y="210" width="80" height="110"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ RETICLE CURSOR ============ -->
+<div class="reticle" id="reticle" aria-hidden="true">
+  <span class="reticle__ring"><b></b><b></b><b></b><b></b></span>
+  <i class="reticle__dot"></i>
+  <em class="reticle__label"></em>
+</div>
+
+<!-- ============ LOADER ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader__mark" viewBox="0 0 120 120" fill="none">
+    <!-- italic outlined "A" monogram -->
+    <path class="loader__a" d="M22 104 L62 14 H80 L96 104 H76 L73 84 H50 L41 104 Z M55 70 H71 L67 40 Z"/>
+    <path class="loader__dash" d="M8 104 H34 M88 104 H112"/>
+    <path class="loader__star" d="M100 6 L103.5 15.1 L113.3 15.7 L105.7 21.9 L108.2 31.3 L100 26 L91.8 31.3 L94.3 21.9 L86.7 15.7 L96.5 15.1 Z"/>
+  </svg>
+</div>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar" id="topbar">
+  <a href="#top" class="brand" aria-label="Aryan Singh Thakur — home">AST</a>
+  <div class="topbar__right">
+    <button class="burger" id="menuBtn" aria-label="Open menu" aria-controls="menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <div class="scene scene--sunset menu__scene" aria-hidden="true">
+    <div class="scene__sky"></div>
+    <div class="scene__sun"></div>
+    <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+    <svg class="scene__city"><use href="#skyline"/></svg>
+    <div class="scene__haze"></div>
+  </div>
+  <svg class="menu__mark" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+    <path d="M22 104 L62 14 H80 L96 104 H76 L73 84 H50 L41 104 Z M55 70 H71 L67 40 Z"/>
+    <path d="M100 6 L103.5 15.1 L113.3 15.7 L105.7 21.9 L108.2 31.3 L100 26 L91.8 31.3 L94.3 21.9 L86.7 15.7 L96.5 15.1 Z"/>
+  </svg>
+  <nav class="menu__links" aria-label="Menu">
+    <a href="#about"><small>01</small>About</a>
+    <a href="#skills"><small>02</small>Skills</a>
+    <a href="#projects"><small>03</small>Projects</a>
+    <a href="#experience"><small>04</small>Experience</a>
+    <a href="#contact"><small>05</small>Contact</a>
+  </nav>
+  <div class="menu__foot">
+    <span>Delhi, India · Open to work</span>
+    <div>
+      <a href="mailto:iamaryan721@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/aryan-singh-thakur-12a422281/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/heyoaryan" target="_blank" rel="noopener">GitHub</a>
+    </div>
   </div>
 </div>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="cursor-label" id="cursorLabel"></div>
+<main>
 
-<div id="glow"></div>
-<div class="bg-grid"></div>
-<div class="blob blob-a"></div>
-<div class="blob blob-b"></div>
-
-  <nav>
-    <div class="nav-inner">
-      <a href="#top" class="logo"><span class="dot"></span></a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about" data-num="01">about</a></li>
-        <li><a href="#skills" data-num="02">skills</a></li>
-        <li><a href="#projects" data-num="03">projects</a></li>
-        <li><a href="#experience" data-num="04">experience</a></li>
-      </ul>
-      <div class="music-player" id="musicPlayer">
-        <label class="volume-control" for="volumeControl">
-          <span class="volume-label">Volume</span>
-          <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.4" aria-label="Volume">
-        </label>
-        <button class="music-btn" id="musicBtn" aria-label="Toggle music">
-          <span class="music-icon" id="musicIcon" aria-hidden="true">◖))</span>
-          <span class="sound-label">SOUND</span>
-          <span class="music-ring"></span>
-        </button>
+  <!-- ============ HERO: logo mask zoom ============ -->
+  <section class="hero" id="top">
+    <div class="hero__pin">
+      <div class="scene scene--sunset hero__scene" id="heroScene" aria-hidden="true">
+        <div class="scene__sky"></div>
+        <div class="scene__sun"></div>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__haze"></div>
       </div>
-      <a href="#contact" class="nav-cta">say hi →</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
+
+      <div class="hero__mask" id="heroMask" aria-hidden="true"><span id="maskText">AST</span></div>
+
+      <div class="hero__intro" id="heroIntro">
+        <p class="kicker">Delhi, India · Available for freelance</p>
+        <h1 class="hero__title"><span class="grad">Aryan Singh Thakur</span></h1>
+        <p class="hero__role">Full-stack developer. React, Next.js, Node.js, MongoDB.<br>IoT hardware to hackathon-winning platforms, shipped and deployed.</p>
+        <div class="hero__actions">
+          <a href="#projects" class="pill pill--solid">View projects</a>
+          <a href="mailto:iamaryan721@gmail.com" class="pill">Let’s talk</a>
+        </div>
+        <div class="hero__stats">
+          <div><b data-count="25">25</b><span>+ Hackathons played</span></div>
+          <div><b data-count="15">15</b><span>+ Wins &amp; top finishes</span></div>
+          <div><b data-count="32">32</b><span>+ Projects built</span></div>
+        </div>
+      </div>
+
+      <div class="hero__cue" id="heroCue" aria-hidden="true"><span></span>Scroll</div>
+    </div>
+  </section>
+
+  <!-- ============ 01 ABOUT — character chapter ============ -->
+  <section class="chapter" id="about">
+    <div class="chapter__media" aria-hidden="true">
+      <div class="scene scene--dusk">
+        <div class="scene__sky"></div><div class="scene__kites"><span class="kite k1"></span><span class="kite k2"></span><span class="kite k3"></span><span class="kite k4"></span></div>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__haze"></div>
+      </div>
+    </div>
+    <div class="chapter__body wrap">
+      <p class="kicker rv">01 — About</p>
+      <h2 class="display rv"><span class="grad">Aryan</span><br><span class="grad">Singh Thakur</span></h2>
+      <p class="lead rv">Currently building, always learning.</p>
+      <div class="cols">
+        <p class="rv">I'm a <strong>Full Stack Developer</strong> based in Delhi, currently pursuing my <strong>MCA at SRM University</strong> after finishing my BCA with an 8.8 CGPA. My work spans the full stack, from responsive React interfaces to REST APIs and MongoDB-backed systems, with a specific interest in where software meets hardware.</p>
+        <p class="rv">That interest turned into an <strong>IoT-enabled Smart Bin System</strong> during my internship at IBM SkillsBuild, and an award-winning logistics platform that placed <strong>2nd at the Industrial Ideathon 2025</strong>. I've also been a <strong>Smart India Hackathon Grand Finalist</strong> and led hackathon organizing as Innovation Coordinator at my college's IIC chapter.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- education postcards -->
+  <section class="band wrap" aria-label="Education">
+    <div class="cards cards--3">
+      <article class="card card--a rv">
+        <span class="card__tag">2026 — 2028</span>
+        <h3>Master of Computer Applications</h3>
+        <p>SRM University, Delhi NCR Sonepat</p>
+      </article>
+      <article class="card card--b rv">
+        <span class="card__tag">2023 — 2026 · CGPA 8.8</span>
+        <h3>Bachelor of Computer Applications</h3>
+        <p>Kasturi Ram College of Higher Education (GGSIPU)</p>
+      </article>
+      <article class="card card--c rv">
+        <span class="card__tag">2023</span>
+        <h3>Senior Secondary, Commerce with Mathematics</h3>
+        <p>Sant Sujan Singh Ji International School (CBSE)</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- big quote, words light up on scroll -->
+  <section class="quote wrap" aria-label="Philosophy">
+    <p class="quote__text" id="quote">I care about interfaces that feel fast and honest, and backends that don't fall over when someone actually uses them.</p>
+  </section>
+
+  <!-- ============ 02 SKILLS — postcards ============ -->
+  <section class="chapter chapter--short" id="skills">
+    <div class="chapter__media" aria-hidden="true">
+      <div class="scene scene--dawn">
+        <div class="scene__sky"></div><div class="scene__rays"></div><svg class="scene__birds" viewBox="0 0 200 60"><path d="M10 30 q8 -8 16 0 q8 -8 16 0"/><path d="M60 14 q6 -6 12 0 q6 -6 12 0"/><path d="M100 36 q7 -7 14 0 q7 -7 14 0"/><path d="M150 20 q5 -5 10 0 q5 -5 10 0"/></svg>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__haze"></div>
+      </div>
+    </div>
+    <div class="chapter__body wrap">
+      <p class="kicker rv">02 — Skills</p>
+      <h2 class="display rv"><span class="grad">The stack</span><br><span class="grad">I build with</span></h2>
+    </div>
+  </section>
+
+  <section class="band wrap" aria-label="Skill groups">
+    <div class="postcards">
+      <article class="postcard pc-1 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Languages</h3><ul><li>Python</li><li>JavaScript</li></ul></article>
+      <article class="postcard pc-2 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Frontend</h3><ul><li>React.js</li><li>HTML5</li><li>CSS3</li><li>Tailwind CSS</li></ul></article>
+      <article class="postcard pc-3 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Backend</h3><ul><li>Node.js</li><li>Express.js</li><li>REST APIs</li></ul></article>
+      <article class="postcard pc-4 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Database</h3><ul><li>MongoDB</li><li>Firebase</li></ul></article>
+      <article class="postcard pc-5 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Tools</h3><ul><li>Git</li><li>GitHub</li><li>VS Code</li><li>Postman</li><li>Vercel</li></ul></article>
+      <article class="postcard pc-6 rv"><div class="postcard__art" aria-hidden="true"></div><span class="postcard__hello">Greetings from</span><h3>Core CS</h3><ul><li>DSA</li><li>OOP</li><li>DBMS</li><li>Operating Systems</li><li>IoT</li></ul></article>
+    </div>
+  </section>
+
+  <!-- ============ 03 PROJECTS — gallery + lightbox ============ -->
+  <section class="chapter chapter--short" id="projects">
+    <div class="chapter__media" aria-hidden="true">
+      <div class="scene scene--night">
+        <div class="scene__sky"></div><div class="scene__beams"><i></i><i></i><i></i></div>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__trails"><i></i><i></i></div><div class="scene__haze"></div>
+      </div>
+    </div>
+    <div class="chapter__body wrap">
+      <p class="kicker rv">03 — Projects</p>
+      <h2 class="display rv"><span class="grad">Selected</span><br><span class="grad">work</span></h2>
+    </div>
+  </section>
+
+  <section class="band wrap" aria-label="Project gallery">
+    <div class="gallery" id="gallery">
+      <button class="tile tile--wide g-1 rv" data-name="Vibify" data-cat="Music Streaming" data-stack="React.js · Node.js" data-link="https://music-vibify.vercel.app" data-desc="A music streaming web app with playlist browsing, search and dynamic music management, designed fast and mobile-friendly.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">01</span><span class="tile__name">Vibify</span><span class="tile__cat">Music Streaming · Live</span>
+      </button>
+      <button class="tile g-2 rv" data-name="Ambu Now" data-cat="Healthcare" data-stack="React · Node.js · MongoDB" data-link="https://ambunow.vercel.app/" data-desc="An on-demand ambulance booking platform focused on cutting response time in genuine emergencies.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">02</span><span class="tile__name">Ambu Now</span><span class="tile__cat">Healthcare · Live</span>
+      </button>
+      <button class="tile g-3 rv" data-name="Cargo Crazee" data-cat="Logistics" data-stack="React.js · Node.js · MongoDB" data-desc="A logistics platform for shipment booking, tracking and courier management with secure auth and a scalable REST backend. Built for the Industrial Ideathon 2025.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">03</span><span class="tile__name">Cargo Crazee</span><span class="tile__cat">Logistics · 2nd @ Ideathon</span>
+      </button>
+      <button class="tile tile--tall g-4 rv" data-name="Zero Waste Delhi" data-cat="Environmental · IoT" data-stack="React · IoT · Firebase" data-desc="A Smart Bin monitoring system built during my IBM SkillsBuild internship, with real-time waste tracking, alerts and a gamified dashboard.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">04</span><span class="tile__name">Zero Waste Delhi</span><span class="tile__cat">Environmental · IoT</span>
+      </button>
+      <button class="tile g-5 rv" data-name="IntelliFlame" data-cat="IoT · Embedded" data-stack="IoT · Embedded Systems" data-desc="An IoT-based fire detection system using flame and smoke sensors, with real-time alerts and an emergency response dashboard.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">05</span><span class="tile__name">IntelliFlame</span><span class="tile__cat">IoT · Embedded</span>
+      </button>
+      <button class="tile g-6 rv" data-name="Mind Mitra" data-cat="Healthcare AI" data-stack="React · Node.js · NLP" data-desc="A conversational chatbot built to recognise emotional cues and offer supportive, context-aware mental health guidance.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">06</span><span class="tile__name">Mind Mitra</span><span class="tile__cat">Healthcare AI</span>
+      </button>
+      <button class="tile tile--wide g-7 rv" data-name="Task Flow Tracker" data-cat="Task Management" data-stack="React · Node.js" data-link="https://taskflow-intern-demo.netlify.app/" data-desc="A clean task management app for organising work into flows, tracking progress and staying on top of deadlines.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">07</span><span class="tile__name">Task Flow Tracker</span><span class="tile__cat">Task Management · Live</span>
+      </button>
+      <button class="tile g-8 rv" data-name="Tic Tac Toe" data-cat="Game" data-stack="React · JavaScript" data-link="https://heyoaryan.github.io/Tic-Tac-Toe/" data-desc="A polished, animated take on the classic game, built to sweat the small UI and interaction details.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">08</span><span class="tile__name">Tic Tac Toe</span><span class="tile__cat">Game · Live</span>
+      </button>
+      <button class="tile g-9 rv" data-name="Drop" data-cat="Instant Sharing · PWA" data-stack="Supabase · PWA · JavaScript" data-link="https://dropinstantshare.vercel.app/" data-desc="Instantly share text, photos and PDFs from one device to another, without WhatsApp. Start a session or join one with a code, drop your files in, and they show up on the other side. Installable to the home screen and works offline.">
+        <span class="tile__art" aria-hidden="true"></span><span class="tile__num">09</span><span class="tile__name">Drop</span><span class="tile__cat">Instant Sharing · Live</span>
       </button>
     </div>
-  </nav>
-  <div class="nav-menu" id="navMenu">
-    <a href="#about" data-num="01">about</a>
-    <a href="#skills" data-num="02">skills</a>
-    <a href="#projects" data-num="03">projects</a>
-    <a href="#experience" data-num="04">experience</a>
-    <a href="#contact" class="nav-cta-mobile">say hi →</a>
-  </div>
+    <div class="center rv"><a class="pill" href="https://github.com/heyoaryan" target="_blank" rel="noopener">See all projects on GitHub</a></div>
+  </section>
 
-<main>
-  <header id="top" class="hero wrap">
-    <div class="status-row">
-      <div class="eyebrow">DELHI, INDIA · AVAILABLE FOR FREELANCE</div>
-      <div class="live-clock"><span class="lc-dot"></span><span id="clock">--:--:-- IST</span></div>
-    </div>
-    <h1 class="hero-title" id="heroTitle" aria-label="Aryan Singh Thakur builds full-stack products, end to end.">
-      <span class="line" data-text="Aryan Singh Thakur"></span>
-      <span class="line muted" data-text="builds full-stack products, end to end."></span>
-    </h1>
-    <div class="hero-role"><span class="prompt">&gt;</span><span id="typed"></span><span class="cursor"></span></div>
-    <p class="hero-desc">MCA student and full-stack developer working across <strong>React, Next.js, Node.js and MongoDB</strong> — from IoT-connected hardware to hackathon-winning platforms, shipped and deployed, not just prototyped.</p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View projects</a>
-    </div>
-    <div class="hero-meta">
-      <div class="meta-item"><div class="num">25+</div><div class="label">HACKATHONS PLAYED</div></div>
-      <div class="meta-item"><div class="num">5+</div><div class="label">WINS &amp; TOP FINISHES</div></div>
-      <div class="meta-item"><div class="num">15+</div><div class="label">PROJECTS BUILT</div></div>
-    </div>
-    <div class="ticker-wrap" aria-hidden="true">
-      <!-- Band 1 — accent purple, scrolls left, tilted -3deg -->
-      <div class="ticker-band ticker-band--a">
-        <div class="ticker-track">
-          <span>React</span><span>★</span><span>Next.js</span><span>★</span><span>Node.js</span><span>★</span><span>TypeScript</span><span>★</span><span>MongoDB</span><span>★</span><span>Tailwind CSS</span><span>★</span><span>Python</span><span>★</span><span>Firebase</span><span>★</span><span>REST APIs</span><span>★</span><span>JavaScript</span><span>★</span><span>Express.js</span><span>★</span><span>Git</span><span>★</span><span>Vercel</span><span>★</span><span>Postman</span><span>★</span><span>Arduino</span><span>★</span>
-          <span>React</span><span>★</span><span>Next.js</span><span>★</span><span>Node.js</span><span>★</span><span>TypeScript</span><span>★</span><span>MongoDB</span><span>★</span><span>Tailwind CSS</span><span>★</span><span>Python</span><span>★</span><span>Firebase</span><span>★</span><span>REST APIs</span><span>★</span><span>JavaScript</span><span>★</span><span>Express.js</span><span>★</span><span>Git</span><span>★</span><span>Vercel</span><span>★</span><span>Postman</span><span>★</span><span>Arduino</span><span>★</span>
-          <span>React</span><span>★</span><span>Next.js</span><span>★</span><span>Node.js</span><span>★</span><span>TypeScript</span><span>★</span><span>MongoDB</span><span>★</span><span>Tailwind CSS</span><span>★</span><span>Python</span><span>★</span><span>Firebase</span><span>★</span><span>REST APIs</span><span>★</span><span>JavaScript</span><span>★</span><span>Express.js</span><span>★</span><span>Git</span><span>★</span><span>Vercel</span><span>★</span><span>Postman</span><span>★</span><span>Arduino</span><span>★</span>
-          <span>React</span><span>★</span><span>Next.js</span><span>★</span><span>Node.js</span><span>★</span><span>TypeScript</span><span>★</span><span>MongoDB</span><span>★</span><span>Tailwind CSS</span><span>★</span><span>Python</span><span>★</span><span>Firebase</span><span>★</span><span>REST APIs</span><span>★</span><span>JavaScript</span><span>★</span><span>Express.js</span><span>★</span><span>Git</span><span>★</span><span>Vercel</span><span>★</span><span>Postman</span><span>★</span><span>Arduino</span><span>★</span>
-        </div>
-      </div>
-      <!-- Band 2 — warm orange, scrolls right, tilted +3deg -->
-      <div class="ticker-band ticker-band--b">
-        <div class="ticker-track ticker-track--rev">
-          <span>Full Stack Dev</span><span>◆</span><span>IoT Builder</span><span>◆</span><span>Hackathon Finalist</span><span>◆</span><span>React Engineer</span><span>◆</span><span>Open Source</span><span>◆</span><span>Delhi, India</span><span>◆</span><span>MCA @ SRM</span><span>◆</span><span>IBM Intern</span><span>◆</span><span>SIH Grand Finalist</span><span>◆</span><span>Freelance Ready</span><span>◆</span><span>2nd @ Ideathon</span><span>◆</span><span>25+ Hackathons</span><span>◆</span><span>Honoured by CM Delhi</span><span>◆</span><span>Always Building</span><span>◆</span>
-          <span>Full Stack Dev</span><span>◆</span><span>IoT Builder</span><span>◆</span><span>Hackathon Finalist</span><span>◆</span><span>React Engineer</span><span>◆</span><span>Open Source</span><span>◆</span><span>Delhi, India</span><span>◆</span><span>MCA @ SRM</span><span>◆</span><span>IBM Intern</span><span>◆</span><span>SIH Grand Finalist</span><span>◆</span><span>Freelance Ready</span><span>◆</span><span>2nd @ Ideathon</span><span>◆</span><span>25+ Hackathons</span><span>◆</span><span>Honoured by CM Delhi</span><span>◆</span><span>Always Building</span><span>◆</span>
-          <span>Full Stack Dev</span><span>◆</span><span>IoT Builder</span><span>◆</span><span>Hackathon Finalist</span><span>◆</span><span>React Engineer</span><span>◆</span><span>Open Source</span><span>◆</span><span>Delhi, India</span><span>◆</span><span>MCA @ SRM</span><span>◆</span><span>IBM Intern</span><span>◆</span><span>SIH Grand Finalist</span><span>◆</span><span>Freelance Ready</span><span>◆</span><span>2nd @ Ideathon</span><span>◆</span><span>25+ Hackathons</span><span>◆</span><span>Honoured by CM Delhi</span><span>◆</span><span>Always Building</span><span>◆</span>
-          <span>Full Stack Dev</span><span>◆</span><span>IoT Builder</span><span>◆</span><span>Hackathon Finalist</span><span>◆</span><span>React Engineer</span><span>◆</span><span>Open Source</span><span>◆</span><span>Delhi, India</span><span>◆</span><span>MCA @ SRM</span><span>◆</span><span>IBM Intern</span><span>◆</span><span>SIH Grand Finalist</span><span>◆</span><span>Freelance Ready</span><span>◆</span><span>2nd @ Ideathon</span><span>◆</span><span>25+ Hackathons</span><span>◆</span><span>Honoured by CM Delhi</span><span>◆</span><span>Always Building</span><span>◆</span>
-        </div>
+  <!-- ============ 04 EXPERIENCE ============ -->
+  <section class="chapter chapter--short" id="experience">
+    <div class="chapter__media" aria-hidden="true">
+      <div class="scene scene--evening">
+        <div class="scene__sky"></div><div class="scene__clouds"></div>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__metro"><div class="metro__track"></div><div class="metro__train"></div></div><div class="scene__haze"></div>
       </div>
     </div>
-    <div class="scroll-cue"><span class="line"></span>SCROLL</div>
-  </header>
-
-  <section id="about">
-    <div class="wrap">
-      <div class="section-head reveal-el">
-        <div class="section-tag">01 / ABOUT</div>
-        <h2 class="section-title">Currently building, always learning.</h2>
-      </div>
-      <div class="about-grid">
-        <div class="about-body reveal-left">
-          <p>I'm a <strong>Full Stack Developer</strong> based in Delhi, currently pursuing my <strong>MCA at SRM University</strong> after finishing my BCA with an 8.8 CGPA. My work spans the full stack — from responsive React interfaces to REST APIs and MongoDB-backed systems — with a specific interest in where software meets hardware.</p>
-          <p>That interest turned into an <strong>IoT-enabled Smart Bin System</strong> during my internship at IBM SkillsBuild, and an award-winning logistics platform that placed <strong>2nd at the Industrial Ideathon 2025</strong>. I've also been a <strong>Smart India Hackathon Grand Finalist</strong> and led hackathon organizing as Innovation Coordinator at my college's IIC chapter.</p>
-          <p>I care about interfaces that feel fast and honest, and backends that don't fall over when someone actually uses them.</p>
-        </div>
-        <div class="edu-list reveal-right">
-          <div class="edu-card">
-            <div class="deg">Master of Computer Applications</div>
-            <div class="school">SRM University, Delhi NCR Sonepat</div>
-            <div class="years">2026 — 2028</div>
-          </div>
-          <div class="edu-card">
-            <div class="deg">Bachelor of Computer Applications</div>
-            <div class="school">Kasturi Ram College of Higher Education (GGSIPU)</div>
-            <div class="years">2023 — 2026</div>
-            <div class="cgpa">CGPA 8.8 / 10</div>
-          </div>
-          <div class="edu-card">
-            <div class="deg">Senior Secondary — Commerce with Mathematics</div>
-            <div class="school">Sant Sujan Singh Ji International School (CBSE)</div>
-            <div class="years">2023</div>
-          </div>
-        </div>
-      </div>
+    <div class="chapter__body wrap">
+      <p class="kicker rv">04 — Experience</p>
+      <h2 class="display rv"><span class="grad">Where the</span><br><span class="grad">work happened</span></h2>
     </div>
   </section>
 
-  <section id="skills">
-    <div class="wrap">
-      <div class="section-head reveal-el">
-        <div class="section-tag">02 / SKILLS</div>
-        <h2 class="section-title">The stack I build with.</h2>
-      </div>
-      <div class="skills-grid reveal-scale">
-        <div class="skill-group">
-          <div class="g-title">LANGUAGES</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-python-plain" aria-hidden="true"></i>Python</span><span class="chip"><i class="devicon-javascript-plain" aria-hidden="true"></i>JavaScript</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="g-title">FRONTEND</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-react-original" aria-hidden="true"></i>React.js</span><span class="chip"><i class="devicon-html5-plain" aria-hidden="true"></i>HTML5</span><span class="chip"><i class="devicon-css3-plain" aria-hidden="true"></i>CSS3</span><span class="chip"><i class="devicon-tailwindcss-original" aria-hidden="true"></i>Tailwind CSS</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="g-title">BACKEND</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-nodejs-plain" aria-hidden="true"></i>Node.js</span><span class="chip"><i class="devicon-express-original" aria-hidden="true"></i>Express.js</span><span class="chip"><i class="devicon-fastapi-plain" aria-hidden="true"></i>REST APIs</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="g-title">DATABASE</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-mongodb-plain" aria-hidden="true"></i>MongoDB</span><span class="chip"><i class="devicon-firebase-plain" aria-hidden="true"></i>Firebase</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="g-title">TOOLS</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-git-plain" aria-hidden="true"></i>Git</span><span class="chip"><i class="devicon-github-original" aria-hidden="true"></i>GitHub</span><span class="chip"><i class="devicon-vscode-plain" aria-hidden="true"></i>VS Code</span><span class="chip"><i class="devicon-postman-plain" aria-hidden="true"></i>Postman</span><span class="chip"><i class="devicon-vercel-original" aria-hidden="true"></i>Vercel</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="g-title">CORE CS &amp; OTHER</div>
-          <div class="chip-row">
-            <span class="chip"><i class="devicon-cplusplus-plain" aria-hidden="true"></i>DSA</span><span class="chip"><i class="devicon-java-plain" aria-hidden="true"></i>OOP</span><span class="chip"><i class="devicon-mysql-plain" aria-hidden="true"></i>DBMS</span><span class="chip"><i class="devicon-linux-plain" aria-hidden="true"></i>Operating Systems</span><span class="chip"><i class="devicon-arduino-plain" aria-hidden="true"></i>IoT</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="wrap">
-      <div class="section-head reveal-el">
-        <div class="section-tag">03 / PROJECTS</div>
-        <h2 class="section-title">Selected work.</h2>
-      </div>
-      <div class="project-grid reveal-scale">
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">01</span><span class="pc-cat">Music Streaming</span></div>
-          <div class="pc-name">Vibify <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A music streaming web app with playlist browsing, search and dynamic music management — designed fast and mobile-friendly.</p>
-          <div class="pc-stack"><span>React.js</span><span>Node.js</span></div>
-          <a href="https://music-vibify.vercel.app" target="_blank" class="pc-link is-live">Visit live site ↗</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">02</span><span class="pc-cat">Healthcare</span></div>
-          <div class="pc-name">Ambu Now <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">An on-demand ambulance booking platform focused on cutting response time in genuine emergencies.</p>
-          <div class="pc-stack"><span>React</span><span>Node.js</span><span>MongoDB</span></div>
-          <a href="https://ambunow.vercel.app/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">03</span><span class="pc-cat">Logistics</span></div>
-          <div class="pc-name">Cargo Crazee <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A logistics platform for shipment booking, tracking and courier management with secure auth and a scalable REST backend. Built for the Industrial Ideathon 2025.</p>
-          <div class="pc-stack"><span>React.js</span><span>Node.js</span><span>MongoDB</span></div>
-          <a href="#contact" class="pc-link">Ask for demo →</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">04</span><span class="pc-cat">Environmental · IoT</span></div>
-          <div class="pc-name">Zero Waste Delhi <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A Smart Bin monitoring system built during my IBM SkillsBuild internship, with real-time waste tracking, alerts and a gamified dashboard.</p>
-          <div class="pc-stack"><span>React</span><span>IoT</span><span>Firebase</span></div>
-          <a href="#contact" class="pc-link">Ask for demo →</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">05</span><span class="pc-cat">IoT · Embedded</span></div>
-          <div class="pc-name">IntelliFlame <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">An IoT-based fire detection system using flame and smoke sensors, with real-time alerts and an emergency response dashboard.</p>
-          <div class="pc-stack"><span>IoT</span><span>Embedded Systems</span></div>
-          <a href="#contact" class="pc-link">Ask for demo →</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">06</span><span class="pc-cat">Healthcare AI</span></div>
-          <div class="pc-name">Mind Mitra <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A conversational chatbot built to recognise emotional cues and offer supportive, context-aware mental health guidance.</p>
-          <div class="pc-stack"><span>React</span><span>Node.js</span><span>NLP</span></div>
-          <a href="#contact" class="pc-link">Ask for demo →</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">07</span><span class="pc-cat">Task Management</span></div>
-          <div class="pc-name">Task Flow Tracker <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A clean task management app for organising work into flows, tracking progress and staying on top of deadlines.</p>
-          <div class="pc-stack"><span>React</span><span>Node.js</span></div>
-          <a href="https://taskflow-intern-demo.netlify.app/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-top"><span class="pc-index">08</span><span class="pc-cat">Game</span></div>
-          <div class="pc-name">Tic Tac Toe <span class="pc-arrow">↗</span></div>
-          <p class="pc-desc">A polished, animated take on the classic game — built to sweat the small UI and interaction details.</p>
-          <div class="pc-stack"><span>React</span><span>JavaScript</span></div>
-          <a href="https://heyoaryan.github.io/Tic-Tac-Toe/" target="_blank" class="pc-link is-live">Visit live site ↗</a>
-        </div>
-
-      </div>
-      <div class="pc-more"><a href="https://github.com/heyoaryan" target="_blank">See all projects on Github ↗</a></div>
-    </div>
-  </section>
-
-  <section id="experience">
-    <div class="wrap">
-      <div class="section-head reveal-el">
-        <div class="section-tag">04 / EXPERIENCE</div>
-        <h2 class="section-title">Where the work happened.</h2>
-      </div>
-
-      <div class="gitlog reveal-el">
-        <div class="commit">
-          <div class="commit-head">
-            <span class="commit-hash">#a1f3c9</span>
-            <span class="commit-date">JUL 2025 — AUG 2025</span>
-          </div>
-          <div class="commit-title">Frontend Web Development Intern</div>
-          <div class="commit-org">IBM SkillsBuild (CSRBOX)</div>
-          <ul class="commit-body">
+  <section class="band wrap" aria-label="Experience and achievements">
+    <div class="jobs">
+      <article class="job rv">
+        <div class="job__when">Jul 2025 — Aug 2025</div>
+        <div>
+          <h3>Frontend Web Development Intern</h3>
+          <p class="job__org">IBM SkillsBuild (CSRBOX)</p>
+          <ul>
             <li>Built responsive web applications using React.js and modern frontend practices.</li>
             <li>Developed the Zero Waste Delhi Smart Bin System with IoT-enabled waste monitoring.</li>
             <li>Implemented authentication, REST API integration, analytics dashboards and gamification.</li>
             <li>Collaborated with mentors and teammates on UI/UX, testing, debugging and deployment.</li>
           </ul>
         </div>
-
-        <div class="commit warm">
-          <div class="commit-head">
-            <span class="commit-hash">#7c2e0b</span>
-            <span class="commit-date">2023 — PRESENT</span>
-          </div>
-          <div class="commit-title">Innovation &amp; Startup Coordinator</div>
-          <div class="commit-org">Institution's Innovation Council, KRCHE</div>
-          <ul class="commit-body">
+      </article>
+      <article class="job rv">
+        <div class="job__when">2023 — Present</div>
+        <div>
+          <h3>Innovation &amp; Startup Coordinator</h3>
+          <p class="job__org">Institution's Innovation Council, KRCHE</p>
+          <ul>
             <li>Led student teams across hackathons and innovation challenges.</li>
-            <li>Organized HACK4KRCHE, an 8-hour campus hackathon — sponsorships, ops and participants.</li>
+            <li>Organized HACK4KRCHE, an 8-hour campus hackathon: sponsorships, ops and participants.</li>
           </ul>
         </div>
-      </div>
+      </article>
+    </div>
 
-      <div class="achv-grid reveal-el">
-        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>2nd Position</strong>Industrial Ideathon 2025</div></div>
-        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Honoured by the CM of Delhi</strong>For outstanding innovation work</div></div>
-        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Grand Finalist</strong>Smart India Hackathon 2024</div></div>
-        <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Finalist</strong>Smart Delhi Ideathon</div></div>
-         <div class="achv"><div class="ic">▲</div><div class="tx"><strong>Finalist</strong>Hack4Delhi</div></div>
-         <div class="achv"><div class="ic">★</div><div class="tx"><strong>Leadership</strong>Organized HACK4KRCHE — an 8-hour campus hackathon with sponsorships and ops</div></div>
-      </div>
+    <h3 class="subhead rv">Achievements</h3>
+    <div class="awards">
+      <div class="award rv"><b>2nd Position</b><span>Industrial Ideathon 2025</span></div>
+      <div class="award rv"><b>Honoured by the CM of Delhi</b><span>For outstanding innovation work</span></div>
+      <div class="award rv"><b>Grand Finalist</b><span>Smart India Hackathon 2024</span></div>
+      <div class="award rv"><b>Finalist</b><span>Smart Delhi Ideathon</span></div>
+      <div class="award rv"><b>Finalist</b><span>Hack4Delhi</span></div>
+      <div class="award rv"><b>Leadership</b><span>Organized HACK4KRCHE, an 8-hour campus hackathon</span></div>
     </div>
   </section>
 
-  <section id="contact">
-    <div class="wrap contact-inner">
-      <div class="section-tag reveal-el">05 / CONTACT</div>
-      <h2 class="contact-title reveal-el">Let's build something <span class="accent">worth shipping.</span></h2>
-      <p class="contact-sub reveal-el">Open to internships, freelance work and full-stack roles. Based in Delhi — happy to work remote.</p>
-      <div class="contact-links reveal-el">
-        <a href="https://www.linkedin.com/in/aryan-singh-thakur-12a422281/" target="_blank">LinkedIn ↗</a>
-        <a href="https://github.com/heyoaryan" target="_blank">GitHub ↗</a>
-        <a href="mailto:iamaryan721@gmail.com">Email ↗</a>
+  <!-- ============ 05 CONTACT — finale ============ -->
+  <section class="finale" id="contact">
+    <div class="finale__media" aria-hidden="true">
+      <div class="scene scene--festive">
+        <div class="scene__sky"></div><div class="scene__fireworks"><i class="fw f1"></i><i class="fw f2"></i><i class="fw f3"></i><i class="fw f4"></i><i class="fw f5"></i></div>
+        <svg class="scene__city scene__city--far"><use href="#skyline-far"/></svg>
+        <svg class="scene__city"><use href="#skyline"/></svg>
+        <div class="scene__haze"></div>
+      </div>
+    </div>
+    <div class="finale__body wrap">
+      <p class="kicker rv">05 — Contact</p>
+      <h2 class="finale__title rv"><span class="grad">Available</span><br><span class="grad">now</span></h2>
+      <p class="lead rv">Let's build something worth shipping. Open to internships, freelance work and full-stack roles. Based in Delhi, happy to work remote.</p>
+      <div class="hero__actions rv">
+        <a class="pill pill--solid" href="mailto:iamaryan721@gmail.com">Email me</a>
+        <a class="pill" href="https://www.linkedin.com/in/aryan-singh-thakur-12a422281/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="pill" href="https://github.com/heyoaryan" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">© 2026 Aryan Singh Thakur · Full Stack Developer</div>
+<footer class="footer">
+  <span class="brand brand--sm">AST</span>
+  <span>© 2026 Aryan Singh Thakur · Full Stack Developer</span>
 </footer>
 
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lbName" aria-hidden="true">
+  <button class="lightbox__close" id="lbClose" aria-label="Close">×</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Previous project">‹</button>
+  <div class="lightbox__frame">
+    <div class="lightbox__art" id="lbArt" aria-hidden="true"></div>
+    <div class="lightbox__info">
+      <span class="kicker" id="lbCat"></span>
+      <h3 class="grad" id="lbName"></h3>
+      <p id="lbDesc"></p>
+      <p class="lightbox__stack" id="lbStack"></p>
+      <a class="pill pill--solid" id="lbLink" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+  <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Next project">›</button>
+</div>
 
-<audio id="bgMusic" loop preload="auto">
-  <source src="hola-amigo.mp3" type="audio/mpeg">
-</audio>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="aryan.js"></script>
-
 </body>
 </html>
